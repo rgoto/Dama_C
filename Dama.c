@@ -7,24 +7,14 @@ int i, j;
 //prototipos das funcoes
 char** initialize();
 void print(char** grade);
-int** ler_numeros();
-int mudando_posicao(char** matriz, int** num, char jogador);
+void game_run();
+int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char oposto);
 
 
 
 int main (void){
-char** m;
-int** numeros;
 
-	m = initialize();
-	print(m);
-
-	numeros = ler_numeros();
-
-	mudando_posicao(m, numeros, 'P');
-
-	print(m);
-
+	game_run();
 	
 }
 
@@ -78,70 +68,100 @@ void print(char** grade){
 	for(i = 0; i < 8; i++){
 		printf("\t%d     ", i);
 
-		for(j = 0; j <8; j++){
-			printf("  %c  ", grade[i][j]);
+	for(j = 0; j <8; j++){
+		printf("  %c  ", grade[i][j]);
 			
-		if(j == 7)
-			printf("\n\n");
+	if(j == 7)
+		printf("\n\n");
 			
 		
 		}
 	}
 }
 
-//Função Salva coordanadas da peca que deseja mover e para onde vai em uma matriz 2x2
-
-
-int** ler_numeros(){
-	int** num;
-
-	num = (int **) calloc(2, sizeof(int *));
-
-	for(i = 0; i < 3; i++)
-	num[i] = (int*) calloc(2, sizeof(int));
-
-
-	printf("Digite as coordenadas da peca que deseja mover (Linha e Coluna): ");
-	scanf("%d %d", &num[0][0], &num[0][1]);
-
-		while(num[0][0] < 0 || num[0][0] >= 8 || num[0][1] < 0 || num[0][1] >= 8){
-			printf("Coordenada Invalida, tente novamente.\n\n");
-			scanf("%d %d", &num[0][0], &num[0][1]);
-
-		}
-
-	printf("Digite as coordenadas para qual a peca vai (Linha e Coluna): ");
-	scanf("%d %d", &num[1][0], &num[1][1]);
-
-		while(num[1][0] < 0 || num[1][0] >= 8 || num[1][1] < 0 || num[1][1] >= 8){
-			printf("Coordenada Invalida, tente novamente.\n\n");
-			scanf("%d %d", &num[0][0], &num[0][1]);
-
-		}
-
-
-	return num;
-
+int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char oposto){
+	
+	if((linp+colp)%2 == 0){
+		
+		if(matriz[lin][col] == jogador && lin < linp || matriz[lin][col] == jogador && lin > linp){ // Só deixa andar uma casa de cada vez;
+					
+	}
+}
+	return 1;	
+	
 }
 
-int mudando_posicao(char** matriz, int** num, char jogador){ //apenas um teste!
+void game_run(){
+char** matriz;
+char jogador = 'B';
+char oposto = 'P';
+int lin, col, linp, colp;
 
-	if(matriz[num[0][0]][num[0][1]] == jogador){
+	matriz = initialize();
+	
+matriz[4][2] = 'P';
+
+	//aqui tera um while futuramente
+	
+	
+	system("cls");
+	print(matriz);
+	
+	printf("\n\n\t Digite qual peça deseja mover!");
+	printf("\n\n\t Linha da peça: ");
+	scanf("%d", &lin);																//
+	printf("\n\n\t Coluna da peça: ");												//
+	scanf("%d", &col);																//Lê os números e
+																					//    	Vê
+	while(lin < 0 || lin >= 8 || col < 0 || col >= 8){								//se é um numero Valido
+																					//
+		system("cls");																//
+		print(matriz);
+		printf("\n\t Numeros invalidos, tente novamentez\n\t");
+		printf("\n\n\t Digite qual peça deseja mover!");
+		printf("\n\n\t Linha da peça: ");
+		scanf("%d", &lin);
+		printf("\t Coluna da peça: ");
+		scanf("%d", &col);
 		
-		if(matriz[num[1][0]][num[1][1]] == '-'){
-
-			matriz[num[0][0]][num[0][1]] = '-';
-			matriz[num[1][0]][num[1][1]] = jogador;
-
-			return 1;
-
-		}
-
-
-
 	}
+	
+	system("cls");
+	print(matriz);
+	
+	printf("\n\n\t Digite para qual casa a peça vai!");
+	printf("\n\n\t Linha da peça: ");
+	scanf("%d", &linp);
+	printf("\n\t Coluna da peça: ");
+	scanf("%d", &colp);
 
-return 1;
-
+	while(linp < 0 || linp>= 8 || colp < 0 || colp >= 8){
+		
+		system("cls");
+		print(matriz);
+		printf("\n\t Numeros invalidos, tente novamentez\n\t");
+		printf("\n\n\t Digite qual peça deseja mover!");
+		printf("\n\n\t Linha da peça: ");
+		scanf("%d", &linp);
+		printf("\t Coluna da peça: ");
+		scanf("%d", &colp);
+		
+	}
+	
+	if(step(matriz,lin,col,linp,colp,jogador, oposto) == -1){
+		
+		system("cls");
+		
+		printf("Movimento Invalido, Tente novamente\n");
+		//continue;
+		
+	}
+	
+	print(matriz);
+	
+	
+	
+	
+	
 }
 
