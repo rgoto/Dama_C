@@ -56,11 +56,13 @@ return tabuleiro;
 	
 }
 
+
 /*
 	
 	Função printa a matriz 8x8 e uma guia para a ajudar o jogador a se localizar
 
 */
+
 
 void print(char** grade){
 	printf("\n\n\t\t\n                0    1    2   3    4     5    6    7    \n\n\n");
@@ -78,6 +80,7 @@ void print(char** grade){
 		}
 	}
 }
+
 
 int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char oposto){
 	
@@ -100,9 +103,10 @@ int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char
 				return 1;
 				}
 				
+				//Vê se a peça que será comida é oposta ao jogador
 				if(matriz[linp][colp] == oposto){
 					
-						//brancas: comer para a direita para cima
+						//brancas: comer para a direita cima
 						if(matriz[linp-1][colp+1] == '-' && colp + 1 == col + 2){
 							matriz[linp-1][colp+1] = jogador;
 							matriz[lin][col] = ' ';
@@ -110,15 +114,32 @@ int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char
 							
 						}
 						
-						//brancas: comer para a esquerda para cima
+						//brancas: comer para a esquerda cima
 						if(matriz[linp-1][colp-1] == '-' && colp - 1 == col - 2){
 							matriz[linp-1][colp-1] = jogador;
 							matriz[lin][col] = ' ';
 							matriz[linp][colp] = ' ';
+						
+						}
+						
+						//Preta: come para direita baixo
+						if(matriz[linp+1][colp+1] == '-' && colp + 1 == col + 2){
+							matriz[linp+1][colp+1] = jogador;
+							matriz[lin][col] = ' ';
+							matriz[linp][colp] = ' ';
+								
+						}						
+						
+						//Preta: come para esquerda baixo
+						if(matriz[linp+1][colp-1] == '-' && colp - 1 == col - 2){
+							matriz[linp+1][colp-1] = jogador;
+							matriz[lin][col] = ' ';
+							matriz[linp][colp] = ' ';
+					
 						}
 						
 						
-					
+						
 					
 					
 					
@@ -137,6 +158,12 @@ int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char
 	
 }
 
+/*
+
+	Função que executa o jogo, chamando todos as funções para que o loop game funcione corretamente
+
+*/
+
 void game_run(){
 char** matriz;
 char jogador = 'B';
@@ -150,33 +177,34 @@ matriz[3][5] = 'B';
 
 
 	//aqui tera um while futuramente
+
+
 	
-	system("cls");
 	print(matriz);
 	
-	printf("\n\n\t Digite qual peça deseja mover!");
-	printf("\n\n\t Linha da peça: ");
+	printf("\n\n\t Jogador %c Digite qual peça deseja mover!",jogador);				//
+	printf("\n\n\t Linha da peça: ");												//
 	scanf("%d", &lin);																//
 	printf("\n\n\t Coluna da peça: ");												//
-	scanf("%d", &col);																//Lê os números e
-																					//    	Vê
-	while(lin < 0 || lin >= 8 || col < 0 || col >= 8){								//se é um numero Valido
-																					//
-		system("cls");																//
-		print(matriz);
-		printf("\n\t Numeros invalidos, tente novamentez\n\t");
-		printf("\n\n\t Digite qual peça deseja mover!");
-		printf("\n\n\t Linha da peça: ");
-		scanf("%d", &lin);
-		printf("\t Coluna da peça: ");
-		scanf("%d", &col);
+	scanf("%d", &col);																//
+																					// 		Lê os números e
+	while(lin < 0 || lin >= 8 || col < 0 || col >= 8){								//
+																					//			  Vê
+		system("cls");																//		
+		print(matriz);																//		se é um numero Válido
+		printf("\n\t Numeros invalidos, tente novamentez\n\t");						//
+		printf("\n\n\t Jogador %c Digite qual peça deseja mover!", jogador);		//
+		printf("\n\n\t Linha da peça: ");											//
+		scanf("%d", &lin);															//
+		printf("\t Coluna da peça: ");												//
+		scanf("%d", &col);															//
 		
 	}
 	
 	system("cls");
 	print(matriz);
 	
-	printf("\n\n\t Digite para qual casa a peça vai!");
+	printf("\n\n\t Jogador %c Digite para qual casa a peça vai!", jogador);
 	printf("\n\n\t Linha da peça: ");
 	scanf("%d", &linp);
 	printf("\n\t Coluna da peça: ");
@@ -187,7 +215,7 @@ matriz[3][5] = 'B';
 		system("cls");
 		print(matriz);
 		printf("\n\t Numeros invalidos, tente novamentez\n\t");
-		printf("\n\n\t Digite qual peça deseja mover!");
+		printf("\n\n\t Jogador %c Digite qual peça deseja mover!", jogador);
 		printf("\n\n\t Linha da peça: ");
 		scanf("%d", &linp);
 		printf("\t Coluna da peça: ");
@@ -196,7 +224,6 @@ matriz[3][5] = 'B';
 	}
 	
 	if(step(matriz,lin,col,linp,colp,jogador, oposto) == -1){
-		
 		system("cls");
 		
 		printf("Movimento Invalido, Tente novamente\n");
@@ -208,17 +235,20 @@ matriz[3][5] = 'B';
 	
 	
 	//Altera entre jogador Branco e Preto
-	if(jogador == 'B'){
-		jogador = 'P';
-		oposto = 'B';
+	if(jogador == 'B'){					//
+		jogador = 'P';					//
+		oposto = 'B';					//
+										//	
+	} else {							//
+		jogador = 'B';					//
+		oposto = 'P'; 					//
+	}									
 	
-	} else {
-		jogador = 'B';
-		oposto = 'P'; 
-	}
+	system("cls");
 	
+	print(matriz);  // apenas para teste, quando acabar apagar essa linha!!!!!!
 
-	
+
 	
 }
 
