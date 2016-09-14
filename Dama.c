@@ -83,11 +83,57 @@ int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char
 	
 	if((linp+colp)%2 == 0){
 		
-		if(matriz[lin][col] == jogador && lin < linp || matriz[lin][col] == jogador && lin > linp){ // Só deixa andar uma casa de cada vez;
+		//se for peças da mesma cor volta false pro while
+		if(matriz[lin][col] == jogador && matriz[linp][colp] == jogador)
+			return -1;
+		 
+		 
+		 	// Só deixa andar uma casa de cada vez;
+			if((matriz[lin][col] == jogador && linp-1 == lin) || (matriz[lin][col] == jogador && linp+1 == lin)){
+				
+				
+				//pretas e brancas: movimento comun	
+				if(matriz[linp][colp] == '-'){
+					matriz[linp][colp] = jogador;
+					matriz[lin][col] = '-';
 					
-	}
-}
-	return 1;	
+				return 1;
+				}
+				
+				if(matriz[linp][colp] == oposto){
+					
+						//brancas: comer para a direita para cima
+						if(matriz[linp-1][colp+1] == '-' && colp + 1 == col + 2){
+							matriz[linp-1][colp+1] = jogador;
+							matriz[lin][col] = ' ';
+							matriz[linp][colp] = ' ';
+							
+						}
+						
+						//brancas: comer para a esquerda para cima
+						if(matriz[linp-1][colp-1] == '-' && colp - 1 == col - 2){
+							matriz[linp-1][colp-1] = jogador;
+							matriz[lin][col] = ' ';
+							matriz[linp][colp] = ' ';
+						}
+						
+						
+					
+					
+					
+					
+					
+					
+					
+					
+					
+				}
+			
+
+					
+	}	
+} 
+	return -1;
 	
 }
 
@@ -100,9 +146,10 @@ int lin, col, linp, colp;
 	matriz = initialize();
 	
 matriz[4][2] = 'P';
+matriz[3][5] = 'B';
+
 
 	//aqui tera um while futuramente
-	
 	
 	system("cls");
 	print(matriz);
@@ -160,7 +207,17 @@ matriz[4][2] = 'P';
 	print(matriz);
 	
 	
+	//Altera entre jogador Branco e Preto
+	if(jogador == 'B'){
+		jogador = 'P';
+		oposto = 'B';
 	
+	} else {
+		jogador = 'B';
+		oposto = 'P'; 
+	}
+	
+
 	
 	
 }
