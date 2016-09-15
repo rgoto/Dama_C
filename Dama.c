@@ -114,7 +114,7 @@ int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char
 				if(matriz[linp][colp] == oposto){
 					
 							//brancas: comer para a direita cima
-							if(matriz[linp-1][colp+1] == '-' && colp + 1 == col + 2){
+							if(matriz[linp-1][colp+1] == '-' && colp + 1 == col + 2 && jogador == 'B'){
 								matriz[linp-1][colp+1] = jogador;
 								matriz[lin][col] = '-';
 								matriz[linp][colp] = '-';
@@ -124,7 +124,7 @@ int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char
 							}
 							
 							//brancas: comer para a esquerda cima
-							if(matriz[linp-1][colp-1] == '-' && colp - 1 == col - 2){
+							if(matriz[linp-1][colp-1] == '-' && colp - 1 == col - 2 && jogador == 'B'){
 								matriz[linp-1][colp-1] = jogador;
 								matriz[lin][col] = '-';
 								matriz[linp][colp] = '-';
@@ -134,7 +134,7 @@ int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char
 							}
 							
 							//Preta: come para direita baixo
-							if(matriz[linp+1][colp+1] == '-' && colp + 1 == col + 2){
+							if(matriz[linp+1][colp+1] == '-' && colp + 1 == col + 2 && jogador == 'P'){
 								matriz[linp+1][colp+1] = jogador;
 								matriz[lin][col] = '-';
 								matriz[linp][colp] = '-';
@@ -144,14 +144,14 @@ int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char
 							}						
 							
 							//Preta: come para esquerda baixo
-							if(matriz[linp+1][colp-1] == '-' && colp - 1 == col - 2){
+							if(matriz[linp+1][colp-1] == '-' && colp - 1 == col - 2 && jogador == 'P'){
 								matriz[linp+1][colp-1] = jogador;
 								matriz[lin][col] = '-';
 								matriz[linp][colp] = '-';
 							
 							return 1;
 							
-							}		
+							}	
 				}			
 	}	
 } 
@@ -172,6 +172,10 @@ char oposto = 'P';
 int lin, col, linp, colp, game = -1;
 
 	matriz = initialize();
+
+	//matriz[4][2] = 'B';
+	//matriz[2][4] = 'P';
+	//matriz[2][2] = 'P';
 	
 	//game loop
 	while(game == -1){
