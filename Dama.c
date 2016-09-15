@@ -57,13 +57,11 @@ return tabuleiro;
 	
 }
 
-
 /*
 	
 	Função printa a matriz 8x8 e uma guia para a ajudar o jogador a se localizar
 
 */
-
 
 void print(char** grade){
 	printf("\n\n\t\t\n                0    1    2   3    4     5    6    7    \n\n\n");
@@ -101,12 +99,15 @@ int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char
 				
 				
 				//pretas e brancas: movimento comun	
-				if(matriz[linp][colp] == '-'){
-					matriz[linp][colp] = jogador;
-					matriz[lin][col] = '-';
+				if(colp == col+1 || colp == col-1){
 					
-				return 1;
-				
+					if(matriz[linp][colp] == '-'){
+						matriz[linp][colp] = jogador;
+						matriz[lin][col] = '-';
+						
+					return 1;
+					
+					}
 				}
 				
 				//Vê se a peça que será comida é oposta ao jogador
@@ -216,8 +217,7 @@ int lin, col, linp, colp, game = -1;
 		printf("\t Coluna da peça: ");												//
 		scanf("%d", &colp);															//
 																					//
-	}																				//
-	
+	}																				//	
 	
 	//Verefica se foi valida a jogada e movimenta
 	if(step(matriz,lin,col,linp,colp,jogador, oposto) == -1){
@@ -230,7 +230,6 @@ int lin, col, linp, colp, game = -1;
 	
 	print(matriz);
 	game = status(matriz);
-	
 	
 	//Altera entre jogador Branco e Preto
 	if(jogador == 'B'){					//
@@ -247,8 +246,6 @@ int lin, col, linp, colp, game = -1;
 
 }										
 
-
-
 	switch(game){
 		
 		case 1:
@@ -264,7 +261,6 @@ int lin, col, linp, colp, game = -1;
 
 
 
-
 }
 
 /*
@@ -273,10 +269,8 @@ int lin, col, linp, colp, game = -1;
 
 */
 
-
 int status(char** matriz){
 	int brancas = 12, pretas = 12;
-	
 	
 		for(i = 0; i < 8; i++){
 			for(j = 0; j < 8; j++){	
@@ -290,14 +284,11 @@ int status(char** matriz){
 			}
 		}
 		
-		
 		if(brancas == 12)
 			return 1;
 			
 		if(pretas == 12)
-			return 2;
-			
-	
+			return 2;		
 				
 	return -1;
 	
