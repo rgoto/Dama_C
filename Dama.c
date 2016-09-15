@@ -9,12 +9,13 @@ char** initialize();
 void print(char** grade);
 void game_run();
 int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char oposto);
+int status(char** matriz);
 
 
 
 int main (void){
 
-	game_run();
+	game_run();	
 	
 }
 
@@ -84,15 +85,19 @@ void print(char** grade){
 
 int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char oposto){
 	
+	//So deixa a peça andar se for par
 	if((linp+colp)%2 == 0){
 		
-		//se for peças da mesma cor volta false pro while
+		//se for peças da mesma cor, retorna false pro while
 		if(matriz[lin][col] == jogador && matriz[linp][colp] == jogador)
 			return -1;
+	
+		//Restrição de andar para trás no movimento comum
+		if((jogador == 'B' && linp > lin) || (jogador == 'P' && linp < lin))
+				return -1;
 		 
-		 
-		 	// Só deixa andar uma casa de cada vez;
-			if((matriz[lin][col] == jogador && linp-1 == lin) || (matriz[lin][col] == jogador && linp+1 == lin)){
+		// Só deixa andar uma casa de cada vez;
+		if((matriz[lin][col] == jogador && linp-1 == lin) || (matriz[lin][col] == jogador && linp+1 == lin)){
 				
 				
 				//pretas e brancas: movimento comun	
@@ -101,57 +106,52 @@ int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char
 					matriz[lin][col] = '-';
 					
 				return 1;
+				
 				}
 				
 				//Vê se a peça que será comida é oposta ao jogador
 				if(matriz[linp][colp] == oposto){
 					
-						//brancas: comer para a direita cima
-						if(matriz[linp-1][colp+1] == '-' && colp + 1 == col + 2){
-							matriz[linp-1][colp+1] = jogador;
-							matriz[lin][col] = ' ';
-							matriz[linp][colp] = ' ';
+							//brancas: comer para a direita cima
+							if(matriz[linp-1][colp+1] == '-' && colp + 1 == col + 2){
+								matriz[linp-1][colp+1] = jogador;
+								matriz[lin][col] = '-';
+								matriz[linp][colp] = '-';
 							
-						}
-						
-						//brancas: comer para a esquerda cima
-						if(matriz[linp-1][colp-1] == '-' && colp - 1 == col - 2){
-							matriz[linp-1][colp-1] = jogador;
-							matriz[lin][col] = ' ';
-							matriz[linp][colp] = ' ';
-						
-						}
-						
-						//Preta: come para direita baixo
-						if(matriz[linp+1][colp+1] == '-' && colp + 1 == col + 2){
-							matriz[linp+1][colp+1] = jogador;
-							matriz[lin][col] = ' ';
-							matriz[linp][colp] = ' ';
+							return 1;
 								
-						}						
-						
-						//Preta: come para esquerda baixo
-						if(matriz[linp+1][colp-1] == '-' && colp - 1 == col - 2){
-							matriz[linp+1][colp-1] = jogador;
-							matriz[lin][col] = ' ';
-							matriz[linp][colp] = ' ';
-					
-						}
-						
-						
-						
-					
-					
-					
-					
-					
-					
-					
-					
-				}
-			
-
-					
+							}
+							
+							//brancas: comer para a esquerda cima
+							if(matriz[linp-1][colp-1] == '-' && colp - 1 == col - 2){
+								matriz[linp-1][colp-1] = jogador;
+								matriz[lin][col] = '-';
+								matriz[linp][colp] = '-';
+							
+							return 1;
+							
+							}
+							
+							//Preta: come para direita baixo
+							if(matriz[linp+1][colp+1] == '-' && colp + 1 == col + 2){
+								matriz[linp+1][colp+1] = jogador;
+								matriz[lin][col] = '-';
+								matriz[linp][colp] = '-';
+									
+							return 1;		
+								
+							}						
+							
+							//Preta: come para esquerda baixo
+							if(matriz[linp+1][colp-1] == '-' && colp - 1 == col - 2){
+								matriz[linp+1][colp-1] = jogador;
+								matriz[lin][col] = '-';
+								matriz[linp][colp] = '-';
+							
+							return 1;
+							
+							}		
+				}			
 	}	
 } 
 	return -1;
@@ -168,18 +168,13 @@ void game_run(){
 char** matriz;
 char jogador = 'B';
 char oposto = 'P';
-int lin, col, linp, colp;
+int lin, col, linp, colp, game = -1;
 
 	matriz = initialize();
 	
-matriz[4][2] = 'P';
-matriz[3][5] = 'B';
+	//game loop
+	while(game == -1){
 
-
-	//aqui tera um while futuramente
-
-
-	
 	print(matriz);
 	
 	printf("\n\n\t Jogador %c Digite qual peça deseja mover!",jogador);				//
@@ -198,40 +193,43 @@ matriz[3][5] = 'B';
 		scanf("%d", &lin);															//
 		printf("\t Coluna da peça: ");												//
 		scanf("%d", &col);															//
-		
-	}
+																					//
+	}																				//
+																					//
+	system("cls");																	//
+	print(matriz);																	//
+																					//
+	printf("\n\n\t Jogador %c Digite para qual casa a peça vai!", jogador);			//
+	printf("\n\n\t Linha da peça: ");												//
+	scanf("%d", &linp);																//
+	printf("\n\t Coluna da peça: ");												//
+	scanf("%d", &colp);																//
+																					//
+	while(linp < 0 || linp>= 8 || colp < 0 || colp >= 8){							//
+																					//
+		system("cls");																//
+		print(matriz);																//
+		printf("\n\t Numeros invalidos, tente novamentez\n\t");						//
+		printf("\n\n\t Jogador %c Digite qual peça deseja mover!", jogador);		//
+		printf("\n\n\t Linha da peça: ");											//
+		scanf("%d", &linp);															//
+		printf("\t Coluna da peça: ");												//
+		scanf("%d", &colp);															//
+																					//
+	}																				//
 	
-	system("cls");
-	print(matriz);
 	
-	printf("\n\n\t Jogador %c Digite para qual casa a peça vai!", jogador);
-	printf("\n\n\t Linha da peça: ");
-	scanf("%d", &linp);
-	printf("\n\t Coluna da peça: ");
-	scanf("%d", &colp);
-
-	while(linp < 0 || linp>= 8 || colp < 0 || colp >= 8){
-		
-		system("cls");
-		print(matriz);
-		printf("\n\t Numeros invalidos, tente novamentez\n\t");
-		printf("\n\n\t Jogador %c Digite qual peça deseja mover!", jogador);
-		printf("\n\n\t Linha da peça: ");
-		scanf("%d", &linp);
-		printf("\t Coluna da peça: ");
-		scanf("%d", &colp);
-		
-	}
-	
+	//Verefica se foi valida a jogada e movimenta
 	if(step(matriz,lin,col,linp,colp,jogador, oposto) == -1){
 		system("cls");
 		
-		printf("Movimento Invalido, Tente novamente\n");
-		//continue;
+		printf("Movimento Inválido, Tente novamente\n");
+		continue;
 		
 	}
 	
 	print(matriz);
+	game = status(matriz);
 	
 	
 	//Altera entre jogador Branco e Preto
@@ -243,12 +241,66 @@ matriz[3][5] = 'B';
 		jogador = 'B';					//
 		oposto = 'P'; 					//
 	}									
-	
+
 	system("cls");
+		
+
+}										
+
+
+
+	switch(game){
+		
+		case 1:
+			system("color 40");
+			printf("\n\n\n\n\t\t O jogador --> P <-- VENCEU!!!!!!!!!!\n\n\n\n\t\t");
+			break;
+			
+		case 2:
+			system("color 27");
+			printf("\n\n\n\n\t\t O jogador --> O <-- VENCEU!!!!!!!!!!\n\n\n\n\t\t");
+			break;
+	}
+
+
+
+
+}
+
+/*
+
+	Função Verifica se algum jogador comeu todas as peças e ganhou
+
+*/
+
+
+int status(char** matriz){
+	int brancas = 12, pretas = 12;
 	
-	print(matriz);  // apenas para teste, quando acabar apagar essa linha!!!!!!
-
-
+	
+		for(i = 0; i < 8; i++){
+			for(j = 0; j < 8; j++){	
+				
+				if(matriz[i][j] == 'B')
+					brancas--;
+					
+				if(matriz[i][j] == 'P')
+					pretas--;
+					
+			}
+		}
+		
+		
+		if(brancas == 12)
+			return 1;
+			
+		if(pretas == 12)
+			return 2;
+			
+	
+				
+	return -1;
+	
 	
 }
 
