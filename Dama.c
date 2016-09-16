@@ -10,11 +10,12 @@ void print(char** grade);
 void game_run();
 int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char oposto);
 int status(char** matriz);
+void dama(char** matriz);
 
 
 
 int main (void){
-
+	
 	game_run();	
 	
 }
@@ -36,20 +37,20 @@ char** initialize(){
 			tabuleiro[i][j] = '-';
 	
 	//Colando as peças 'P'retas		
-	for(i = 0; i < 3; i += 2)
-		for(j = 0; j < 8; j += 2)
-			tabuleiro[i][j] = 'P';
+//	for(i = 0; i < 3; i += 2)
+//		for(j = 0; j < 8; j += 2)
+//			tabuleiro[i][j] = 'P';
 			
-		for(j = 1; j < 8; j += 2)
-			tabuleiro[1][j] = 'P';
+//		for(j = 1; j < 8; j += 2)
+//			tabuleiro[1][j] = 'P';
 			
 	//Colocando as peças 'B'rancas
-	for(i = 5; i < 8; i += 2)
-		for(j = 1; j < 8; j += 2)
-			tabuleiro[i][j] = 'B';
+//	for(i = 5; i < 8; i += 2)
+//		for(j = 1; j < 8; j += 2)
+//			tabuleiro[i][j] = 'B';
 			
-		for(j = 0; j < 8; j += 2)
-			tabuleiro[6][j] = 'B';
+//		for(j = 0; j < 8; j += 2)
+//			tabuleiro[6][j] = 'B';
 	
 			
 			 		
@@ -83,6 +84,18 @@ void print(char** grade){
 
 int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char oposto){
 	
+	//Movimentos e restrições da dama
+	if(matriz[0][colp] == 18 || matriz[7][colp] == 29){
+								
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	//So deixa a peça andar se for par
 	if((linp+colp)%2 == 0){
 		
@@ -103,16 +116,16 @@ int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char
 					
 					if(matriz[linp][colp] == '-'){
 						matriz[linp][colp] = jogador;
-						matriz[lin][col] = '-';
+						matriz[lin][col] = '-';	
 						
-					return 1;
+						return 1;
 					
 					}
 				}
 				
 				//Vê se a peça que será comida é oposta ao jogador
 				if(matriz[linp][colp] == oposto){
-					
+				
 							//brancas: comer para a direita cima
 							if(matriz[linp-1][colp+1] == '-' && colp + 1 == col + 2 && jogador == 'B'){
 								matriz[linp-1][colp+1] = jogador;
@@ -139,7 +152,7 @@ int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char
 								matriz[lin][col] = '-';
 								matriz[linp][colp] = '-';
 									
-							return 1;		
+							return 1;	
 								
 							}						
 							
@@ -151,7 +164,8 @@ int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char
 							
 							return 1;
 							
-							}	
+							}			
+			
 				}			
 	}	
 } 
@@ -173,9 +187,9 @@ int lin, col, linp, colp, game = -1;
 
 	matriz = initialize();
 
-	//matriz[4][2] = 'B';
+	matriz[1][1] = 'B';
 	//matriz[2][4] = 'P';
-	//matriz[2][2] = 'P';
+	matriz[6][2] = 'P';
 	
 	//game loop
 	while(game == -1){
@@ -232,6 +246,7 @@ int lin, col, linp, colp, game = -1;
 		
 	}
 	
+	dama(matriz);
 	print(matriz);
 	game = status(matriz);
 	
@@ -259,7 +274,7 @@ int lin, col, linp, colp, game = -1;
 			
 		case 2:
 			system("color 27");
-			printf("\n\n\n\n\t\t O jogador --> O <-- VENCEU!!!!!!!!!!\n\n\n\n\t\t");
+			printf("\n\n\n\n\t\t O jogador --> B <-- VENCEU!!!!!!!!!!\n\n\n\n\t\t");
 			break;
 	}
 
@@ -279,10 +294,10 @@ int status(char** matriz){
 		for(i = 0; i < 8; i++){
 			for(j = 0; j < 8; j++){	
 				
-				if(matriz[i][j] == 'B')
+				if(matriz[i][j] == 'B' || matriz[i][j] == 18)
 					brancas--;
 					
-				if(matriz[i][j] == 'P')
+				if(matriz[i][j] == 'P' || matriz [i][j] == 29)
 					pretas--;
 					
 			}
@@ -296,6 +311,21 @@ int status(char** matriz){
 				
 	return -1;
 	
+	
+}
+
+void dama(char** matriz){
+	
+	for(i = 0; i < 8; i++){
+		
+		if(matriz[0][i] == 'B')
+			matriz[0][i] = 18;
+			
+		if(matriz[7][i] == 'P')
+			matriz[7][i] = 29;
+		
+	}
+		
 	
 }
 
