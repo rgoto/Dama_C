@@ -8,9 +8,9 @@ int i, j;
 char** initialize();
 void print(char** grade);
 void game_run();
-int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char oposto);
+int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char oposto, char dama, char odama);
 int status(char** matriz);
-void dama(char** matriz);
+void mdama(char** matriz);
 
 
 
@@ -35,24 +35,25 @@ char** initialize(){
 	for(i = 0; i < 8; i++)
 		for(j = 0; j < 8; j++)
 			tabuleiro[i][j] = '-';
-	
+
+/*	
 	//Colando as peças 'P'retas		
-//	for(i = 0; i < 3; i += 2)
-//		for(j = 0; j < 8; j += 2)
-//			tabuleiro[i][j] = 'P';
+	for(i = 0; i < 3; i += 2)
+		for(j = 0; j < 8; j += 2)
+			tabuleiro[i][j] = 'P';
 			
-//		for(j = 1; j < 8; j += 2)
-//			tabuleiro[1][j] = 'P';
+		for(j = 1; j < 8; j += 2)
+			tabuleiro[1][j] = 'P';
 			
 	//Colocando as peças 'B'rancas
-//	for(i = 5; i < 8; i += 2)
-//		for(j = 1; j < 8; j += 2)
-//			tabuleiro[i][j] = 'B';
+	for(i = 5; i < 8; i += 2)
+		for(j = 1; j < 8; j += 2)
+			tabuleiro[i][j] = 'B';
 			
-//		for(j = 0; j < 8; j += 2)
-//			tabuleiro[6][j] = 'B';
+		for(j = 0; j < 8; j += 2)
+			tabuleiro[6][j] = 'B';
 	
-			
+	*/		
 			 		
 return tabuleiro;
 	
@@ -82,16 +83,34 @@ void print(char** grade){
 }
 
 
-int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char oposto){
+int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char oposto, char dama, char odama){
 	
 	//Movimentos e restrições da dama
-	if(matriz[0][colp] == 18 || matriz[7][colp] == 29){
-								
+	if(matriz[lin][col] == dama){
+	
+		if(matriz[linp][colp] == '-'){
+			
+			for(i = linp ; i < 9; i++){         //teste de provavel gambiarra!!!!!!!!!!!!!
+				for(j = colp; j < 9; j++){
+					
+				}
+			}
+			
+			
+			
+			
+			matriz[linp][colp] = dama;
+			matriz[lin][col] = '-';
+			
+			return 1;
+		}
+	
+	
 	}
-	
-	
-	
-	
+								
+			
+				
+					
 	
 	
 	
@@ -183,12 +202,14 @@ void game_run(){
 char** matriz;
 char jogador = 'B';
 char oposto = 'P';
+char dama = 18;
+char odama = 29;
 int lin, col, linp, colp, game = -1;
 
 	matriz = initialize();
 
 	matriz[1][1] = 'B';
-	//matriz[2][4] = 'P';
+	matriz[3][3] = 'P';
 	matriz[6][2] = 'P';
 	
 	//game loop
@@ -238,7 +259,7 @@ int lin, col, linp, colp, game = -1;
 	}																				//	
 	
 	//Verefica se foi valida a jogada e movimenta
-	if(step(matriz,lin,col,linp,colp,jogador, oposto) == -1){
+	if(step(matriz,lin,col,linp,colp,jogador, oposto, dama, odama) == -1){
 		system("cls");
 		
 		printf("Movimento Inválido, Tente novamente\n");
@@ -246,18 +267,22 @@ int lin, col, linp, colp, game = -1;
 		
 	}
 	
-	dama(matriz);
+	mdama(matriz);
 	print(matriz);
 	game = status(matriz);
 	
 	//Altera entre jogador Branco e Preto
-	if(jogador == 'B'){					//
-		jogador = 'P';					//
-		oposto = 'B';					//
-										//	
-	} else {							//
-		jogador = 'B';					//
-		oposto = 'P'; 					//
+	if(jogador == 'B'){	
+		jogador = 'P';					
+		oposto = 'B';					
+		dama = 29;						
+		odama = 18;						
+											
+	} else {							
+		jogador = 'B';					
+		oposto = 'P'; 					
+		dama = 18;						
+		odama = 29;						
 	}									
 
 	system("cls");
@@ -314,7 +339,7 @@ int status(char** matriz){
 	
 }
 
-void dama(char** matriz){
+void mdama(char** matriz){
 	
 	for(i = 0; i < 8; i++){
 		
