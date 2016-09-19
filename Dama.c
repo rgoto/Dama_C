@@ -9,6 +9,7 @@ char** initialize();
 void print(char** grade);
 void game_run();
 int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char oposto, char dama, char odama);
+int restricaodama(char** matriz, int lin, int col, int linp, int colp, char oposto, char odama);
 int status(char** matriz);
 void mdama(char** matriz);
 
@@ -95,15 +96,13 @@ int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char
 			if((linp+colp)%2 == 0){
 				
 				//Movimento comum da dama com gambiarra!!!!
-				if(matriz[linp][colp] == '-'){
+				if(restricaodama(matriz, lin, col, linp, colp, oposto, dama) == 2){
+					matriz[linp][colp] = dama;
+					matriz[lin][col] = '-';
+					return 1;
 					
-						
-						
-	
-						
-						
-				}
-				
+				} else
+					return -1;
 				
 				
 				//dama só pode comer se for oposto!
@@ -416,5 +415,53 @@ void mdama(char** matriz){
 	}
 		
 	
+}
+
+int restricaodama(char** matriz, int lin, int col, int linp, int colp, char oposto, char odama){
+	
+	if(matriz[linp][colp] == '-'){
+		
+		if(linp == colp && linp > lin){
+			
+			for(i = lin; i < linp; i++){
+				if(matriz[i][i] == oposto || matriz[i][j] == odama)
+					return -1;
+					
+			}
+		}
+		
+		
+		if(linp == colp && linp < lin){
+			for(i = lin; i > linp; i--){
+				if(matriz[i][i] == oposto || matriz[i][j] == odama)
+					return -1;
+					
+			}	
+		}
+		
+		
+		if(lin > linp){
+			for(i = lin; i > linp; i--){
+				for(j = col; j < colp; j++){
+					if(matriz[i][j] == oposto || matriz[i][j] == odama)
+						return -1;
+						
+				}
+			}
+		}
+		
+		
+		if(lin < linp){
+			for(i = lin; i < linp; i++){
+				for(j = col; j > colp; j--){
+					if(matriz[i][j] == oposto || matriz[i][j] == odama)
+						return -1;
+						
+				}
+			}	
+		}	
+	}
+	
+	return 2;
 }
 
