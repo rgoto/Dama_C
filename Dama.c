@@ -15,7 +15,7 @@ void mdama(char** matriz);
 
 
 int main (void){
-	
+	system("color f0");
 	game_run();	
 	
 }
@@ -54,7 +54,7 @@ char** initialize(){
 			tabuleiro[6][j] = 'B';
 	
 	*/		
-			 		
+			 	
 return tabuleiro;
 	
 }
@@ -82,38 +82,96 @@ void print(char** grade){
 	}
 }
 
-
+	
 int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char oposto, char dama, char odama){
+	int num, nump;
+	num = linp - lin;
+	nump= colp - col;
 	
 	//Movimentos e restrições da dama
-	if(matriz[lin][col] == dama){
-	
-		if(matriz[linp][colp] == '-'){
-			
-			for(i = linp ; i < 9; i++){         //teste de provavel gambiarra!!!!!!!!!!!!!
-				for(j = colp; j < 9; j++){
+	if(matriz[lin][col] == dama){	
+		
+			//Dama só anda se for par
+			if((linp+colp)%2 == 0){
+				
+				//Movimento comum da dama com gambiarra!!!!
+				if(matriz[linp][colp] == '-'){
 					
-				}
-			}
-			
-			
-			
-			
-			matriz[linp][colp] = dama;
-			matriz[lin][col] = '-';
-			
-			return 1;
-		}
+						
+						
 	
+						
+						
+				}
+				
+				
+				
+				//dama só pode comer se for oposto!
+				if(matriz[linp][colp] == oposto || matriz [linp][colp] == odama){
+						
+						//restrição para colunas
+						if(colp > col){
+							
+								//dama: come para direita baixo
+								if(matriz[linp+1][colp+1] == '-'  && matriz[linp-num][colp-num] == matriz[lin][col]){
+									matriz[linp+1][colp+1] = dama;
+									matriz[lin][col] = '-';
+									matriz[linp][colp] = '-';
+											
+								return 1;	
+									
+								}
+									
+									
+								//dama: come para a direita cima
+								if(matriz[linp-1][colp+1] == '-' && matriz[linp+num][colp-num] == matriz[lin][col]){
+									matriz[linp-1][colp+1] = dama;
+									matriz[lin][col] = '-';
+									matriz[linp][colp] = '-';
+									
+								return 1;
+									
+								}
+						
+					
+						} else {
+								
+								
+								//dama: come para a esquerda cima
+								if(matriz[linp-1][colp-1] == '-' && matriz[linp-num][colp-num] == matriz[lin][col]){
+									matriz[linp-1][colp-1] = dama;
+									matriz[lin][col] = '-';
+									matriz[linp][colp] = '-';
+									
+								return 1;
+									
+								}
+								
+								
+								//dama: come para esquerda baixo
+								if(matriz[linp+1][colp-1] == '-' && matriz[linp-num][colp+num] == matriz[lin][col]){
+									matriz[linp+1][colp-1] = dama;
+									matriz[lin][col] = '-';
+									matriz[linp][colp] = '-';
+									
+								return 1;
+								
+								}
+								
+								
+								
+						}
+					
+				}	
+			
+			}
+	
+	
+	
+	
+	return -1;
 	
 	}
-								
-			
-				
-					
-	
-	
-	
 	
 	//So deixa a peça andar se for par
 	if((linp+colp)%2 == 0){
@@ -145,7 +203,7 @@ int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char
 				//Vê se a peça que será comida é oposta ao jogador
 				if(matriz[linp][colp] == oposto){
 				
-							//brancas: comer para a direita cima
+							//brancas: come para a direita cima
 							if(matriz[linp-1][colp+1] == '-' && colp + 1 == col + 2 && jogador == 'B'){
 								matriz[linp-1][colp+1] = jogador;
 								matriz[lin][col] = '-';
@@ -155,7 +213,7 @@ int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char
 								
 							}
 							
-							//brancas: comer para a esquerda cima
+							//brancas: come para a esquerda cima
 							if(matriz[linp-1][colp-1] == '-' && colp - 1 == col - 2 && jogador == 'B'){
 								matriz[linp-1][colp-1] = jogador;
 								matriz[lin][col] = '-';
@@ -188,6 +246,7 @@ int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char
 				}			
 	}	
 } 
+
 	return -1;
 	
 }
@@ -208,9 +267,11 @@ int lin, col, linp, colp, game = -1;
 
 	matriz = initialize();
 
-	matriz[1][1] = 'B';
-	matriz[3][3] = 'P';
-	matriz[6][2] = 'P';
+	matriz[1][1] = 'P';
+	matriz[3][3] = 18;
+	matriz[1][5] = 'P';
+	matriz[6][6] = 'P';
+	matriz[5][1] = 'P';
 	
 	//game loop
 	while(game == -1){
@@ -270,6 +331,7 @@ int lin, col, linp, colp, game = -1;
 	mdama(matriz);
 	print(matriz);
 	game = status(matriz);
+	
 	
 	//Altera entre jogador Branco e Preto
 	if(jogador == 'B'){	
@@ -339,6 +401,8 @@ int status(char** matriz){
 	
 }
 
+
+//Função reconhece
 void mdama(char** matriz){
 	
 	for(i = 0; i < 8; i++){
