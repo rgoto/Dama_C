@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <curses.h>
 //variaveis globais
 int i, j;
 
@@ -37,7 +37,7 @@ char** initialize(){
 		for(j = 0; j < 8; j++)
 			tabuleiro[i][j] = '-';
 
-/*	
+
 	//Colando as peças 'P'retas		
 	for(i = 0; i < 3; i += 2)
 		for(j = 0; j < 8; j += 2)
@@ -54,7 +54,7 @@ char** initialize(){
 		for(j = 0; j < 8; j += 2)
 			tabuleiro[6][j] = 'B';
 	
-	*/		
+		
 			 	
 return tabuleiro;
 	
@@ -85,30 +85,21 @@ void print(char** grade){
 
 	
 int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char oposto, char dama, char odama){
-	int num, nump;
+	int num = 0, nump = 0;
+	int teste;
 	num = linp - lin;
-	nump= colp - col;
+	nump = colp - col;
 	
 	//Movimentos e restrições da dama
 	if(matriz[lin][col] == dama){	
 		
+	
 			//Dama só anda se for par
 			if((linp+colp)%2 == 0){
 				
-				//Movimento comum da dama com gambiarra!!!!
-				if(restricaodama(matriz, lin, col, linp, colp, oposto, dama) == 2){
-					matriz[linp][colp] = dama;
-					matriz[lin][col] = '-';
-					return 1;
-					
-				} else
-					return -1;
-				
-				
-				//dama só pode comer se for oposto!
-				if(matriz[linp][colp] == oposto || matriz [linp][colp] == odama){
-						
-						//restrição para colunas
+				if(matriz[linp][colp] == oposto || matriz[linp][colp] == odama){
+
+					//restrição para colunas
 						if(colp > col){
 							
 								//dama: come para direita baixo
@@ -142,7 +133,7 @@ int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char
 									matriz[lin][col] = '-';
 									matriz[linp][colp] = '-';
 									
-								return 1;
+									return 1;
 									
 								}
 								
@@ -160,20 +151,40 @@ int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char
 								
 								
 						}
+
+
+
+				}
+
+				//Movimento comum da dama com gambiarra!!!!
+				else if(restricaodama(matriz, lin, col, linp, colp, oposto, dama) == 2){
+					matriz[linp][colp] = dama;
+					matriz[lin][col] = '-';
+					return 1;
 					
-				}	
+				} else
+					return -1;
+				
+				printf("estou aqui");
+				//dama só pode comer se for oposto!
+				//if(matriz[linp][colp] == oposto || matriz [linp][colp] == odama){
+						
+						
+					
+				//}	
 			
 			}
 	
 	
 	
 	
-	return -1;
+		return -1;
 	
 	}
 	
 	//So deixa a peça andar se for par
 	if((linp+colp)%2 == 0){
+
 		
 		//se for peças da mesma cor, retorna false pro while
 		if(matriz[lin][col] == jogador && matriz[linp][colp] == jogador)
@@ -266,12 +277,13 @@ int lin, col, linp, colp, game = -1;
 
 	matriz = initialize();
 
-	matriz[1][1] = 'P';
+	/* matriz[1][1] = 'P';
 	matriz[3][3] = 18;
 	matriz[1][5] = 'P';
 	matriz[6][6] = 'P';
 	matriz[5][1] = 'P';
 	
+	*/
 	//game loop
 	while(game == -1){
 
@@ -317,7 +329,6 @@ int lin, col, linp, colp, game = -1;
 		scanf("%d", &colp);															//
 																					//
 	}																				//	
-	
 	//Verefica se foi valida a jogada e movimenta
 	if(step(matriz,lin,col,linp,colp,jogador, oposto, dama, odama) == -1){
 		system("cls");
