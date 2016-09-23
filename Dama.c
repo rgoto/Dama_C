@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <curses.h>
 //variaveis globais
 int i, j;
 
@@ -92,8 +91,12 @@ int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char
 	
 	//Movimentos e restrições da dama
 	if(matriz[lin][col] == dama){	
-		
 	
+	//não deixa comer para fora da matriz
+	if((linp == 7 || linp == 0) && (matriz[linp][colp] == oposto || matriz[linp][colp] == odama))
+   		return -1;
+   	
+
 			//Dama só anda se for par
 			if((linp+colp)%2 == 0){
 				
@@ -164,14 +167,7 @@ int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char
 					
 				} else
 					return -1;
-				
-				printf("estou aqui");
-				//dama só pode comer se for oposto!
-				//if(matriz[linp][colp] == oposto || matriz [linp][colp] == odama){
-						
-						
-					
-				//}	
+			
 			
 			}
 	
@@ -184,6 +180,10 @@ int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char
 	
 	//So deixa a peça andar se for par
 	if((linp+colp)%2 == 0){
+	
+		//Não deixa comer para fora da matriz
+		if((linp == 7 || linp == 0) && (matriz[linp][colp] == oposto || matriz[linp][colp] == odama))
+	   		return -1;
 
 		
 		//se for peças da mesma cor, retorna false pro while
@@ -192,7 +192,7 @@ int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char
 	
 		//Restrição de andar para trás no movimento comum
 		if((jogador == 'B' && linp > lin) || (jogador == 'P' && linp < lin))
-				return -1;
+			return -1;
 		 
 		// Só deixa andar uma casa de cada vez;
 		if((matriz[lin][col] == jogador && linp-1 == lin) || (matriz[lin][col] == jogador && linp+1 == lin)){
@@ -262,9 +262,7 @@ int step(char** matriz, int lin, int col, int linp, int colp, char jogador, char
 }
 
 /*
-
 	Função que executa o jogo, chamando todos as funções para que o loop game funcione corretamente
-
 */
 
 void game_run(){
@@ -276,14 +274,7 @@ char odama = 29;
 int lin, col, linp, colp, game = -1;
 
 	matriz = initialize();
-
-	/* matriz[1][1] = 'P';
-	matriz[3][3] = 18;
-	matriz[1][5] = 'P';
-	matriz[6][6] = 'P';
-	matriz[5][1] = 'P';
 	
-	*/
 	//game loop
 	while(game == -1){
 
@@ -380,9 +371,7 @@ int lin, col, linp, colp, game = -1;
 }
 
 /*
-
 	Função Verifica se algum jogador comeu todas as peças e ganhou
-
 */
 
 int status(char** matriz){
