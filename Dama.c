@@ -1,12 +1,12 @@
 /*
 
- --> Centro Univsersitário Senac - Santo Amaro 
- --> Engenharia da Computação - Algorítmos e Programação - Noturno
+ --> Centro UnivsersitÃ¡rio Senac - Santo Amaro 
+ --> Engenharia da ComputaÃ§Ã£o - AlgorÃ­tmos e ProgramaÃ§Ã£o - Noturno
  
- Adptação Desenvolvida por: 
+ AdptaÃ§Ã£o Desenvolvida por: 
 
- --> Rafael Flôr Goto
- --> Mônica Beatriz Ulloa
+ --> Rafael FlÃ´r Goto
+ --> MÃ´nica Beatriz Ulloa
  
 
 */
@@ -31,7 +31,7 @@ void mdama (char** matriz);
 
 int main (void){
 	
-	setlocale (LC_ALL,"Portuguese"); //Altera a localidade corrente para Português, podendo assim utilizar acentos sem erros na hora de compilar
+	setlocale (LC_ALL,"Portuguese"); //Altera a localidade corrente para PortuguÃªs, podendo assim utilizar acentos sem erros na hora de compilar
 	system ("color f0");
 	game_run ();	
 	
@@ -39,7 +39,7 @@ int main (void){
 
 /*
 
-Função cria uma matriz 8x8 e popula para evitar possiveis erros de lógica,
+FunÃ§Ã£o cria uma matriz 8x8 e popula para evitar possiveis erros de lÃ³gica,
 
 
 */
@@ -84,7 +84,7 @@ return tabuleiro;
 
 /*
 	
-	Funçõo printa a matriz 8x8 e uma guia 
+	FunÃ§Ãµo printa a matriz 8x8 e uma guia 
 	para a ajudar o jogador a se localizar
 
 */
@@ -108,17 +108,17 @@ void print (char** grade){
 
 /*
 
-Função recebe:
+FunÃ§Ã£o recebe:
 
-localização do tabuleiro: char** matriz
-Peça que vai mover : int lin e col
-Local que a peça vai ocupar: int linp e colp
+localizaÃ§Ã£o do tabuleiro: char** matriz
+PeÃ§a que vai mover : int lin e col
+Local que a peÃ§a vai ocupar: int linp e colp
 Qual jogador possui a vez: char jogador e dama
 Oposto do jogador: char oposto e odama
 
-Função verifica se o local que a peça vai é válido
-e caso no local que o jogador vai se encontre uma peça
-oposta, a função vai se localizar na matriz comendo a peça
+FunÃ§Ã£o verifica se o local que a peÃ§a vai Ã© vÃ¡lido
+e caso no local que o jogador vai se encontre uma peÃ§a
+oposta, a funÃ§Ã£o vai se localizar na matriz comendo a peÃ§a
 e indo uma casa para cima ou para baixo caso esse local for vazio
 
 */	
@@ -129,20 +129,20 @@ int step (char** matriz, int lin, int col, int linp, int colp, char jogador, cha
 	
 	num = (linp-lin < 0) ?  (colp-col) : (linp-lin);
 	
-	//Movimentos e restrições da dama
+	//Movimentos e restriÃ§Ãµes da dama
 	if (matriz[lin][col] == dama){	
 	
-	//não deixa comer para fora da matriz
+	//nÃ£o deixa comer para fora da matriz
 	if ((linp == 7 || linp == 0) && (matriz[linp][colp] == oposto || matriz[linp][colp] == odama))
    		return -1;
 
-			//Dama só anda se for par
+			//Dama sÃ³ anda se for par
 			if ((linp+colp)%2 == 0){
 				
-				//só come se for o oposto
+				//sÃ³ come se for o oposto
 				if (matriz[linp][colp] == oposto || matriz[linp][colp] == odama){
 
-					//restrição para colunas
+					//restriÃ§Ã£o para colunas
 						if (colp > col){
 							
 								//dama: come para direita baixo
@@ -212,19 +212,19 @@ int step (char** matriz, int lin, int col, int linp, int colp, char jogador, cha
 	
 	}
 	
-	//So deixa a peçaa andar se for par
+	//So deixa a peÃ§aa andar se for par
 	if ((linp+colp) % 2 == 0){
 	
-		//Não deixa comer para fora da matriz
+		//NÃ£o deixa comer para fora da matriz
 		if ((linp == 7 || linp == 0) && (matriz[linp][colp] == oposto || matriz[linp][colp] == odama))
 	   		return -1;
 
 		
-		//se for peças da mesma cor, retorna false pro while
+		//se for peÃ§as da mesma cor, retorna false pro while
 		if (matriz[lin][col] == jogador && matriz[linp][colp] == jogador)
 			return -1;
 	
-		//Restrção de andar para trás no movimento comum
+		//RestrÃ§Ã£o de andar para trÃ¡s no movimento comum
 		if ((jogador == 'B' && linp > lin) || (jogador == 'P' && linp < lin))
 			return -1;
 		 
@@ -244,7 +244,7 @@ int step (char** matriz, int lin, int col, int linp, int colp, char jogador, cha
 					}
 				}
 				
-				//Verifica se a peça que será comida é oposta ao jogador
+				//Verifica se a peÃ§a que serÃ¡ comida Ã© oposta ao jogador
 				if (matriz[linp][colp] == oposto){
 				
 							//brancas: come para a direita cima
@@ -297,7 +297,7 @@ int step (char** matriz, int lin, int col, int linp, int colp, char jogador, cha
 
 /*
 
-	Função que executa o jogo em forma de loop
+	FunÃ§Ã£o que executa o jogo em forma de loop
 	
 */
 
@@ -315,52 +315,52 @@ int lin, col, linp, colp, game = -1;
 	//game loop
 	while (game == -1){
 	
-	printf ("\n\n\t Jogador %c Digite qual peça deseja mover!",jogador);			//
-	printf ("\n\n\t Linha da peça: ");												//
-	scanf ("%d", &lin);																//
-	printf ("\t Coluna da peça: ");													//
-	scanf ("%d", &col);																//
-																					// 		     
-	while (lin < 0 || lin >= 8 || col < 0 || col >= 8){								//
-																					//		   
-		system ("cls");																//		Lê os números e Verifica
-		print (matriz);																//		  se é um número Válido
-		printf ("\n\t Números inválidos, tente novamente\n\t");						//
-		printf ("\n\n\t Jogador %c Digite qual peça deseja mover!", jogador);		// 	Para ser válido o número tem que ser:
-		printf ("\n\n\t Linha da peça: ");											//			
-		scanf ("%d", &lin);															//			"maior ou igual a 0
-		printf ("\t Coluna da peça: ");												//				   e
-		scanf ("%d", &col);															//			menor ou igual a 7"
-																					//
-	}																				//		
-																					//		Caso não seja um número válido
-	system ("cls");	 // Limpa a tela												//		o jogador entrará em um loop 
-	print (matriz);																	//		até dar números válidos
-																					//
-	printf ("\n\n\t Jogador %c Digite para qual casa a peça vai!", jogador);		//
-	printf ("\n\n\t Linha da peça: ");												//
-	scanf ("%d", &linp);															//
-	printf ("\t Coluna da peça: ");													//
-	scanf ("%d", &colp);															//
-																					//
-	while(linp < 0 || linp>= 8 || colp < 0 || colp >= 8){							//
-																					//
-		system ("cls");																//
-		print (matriz);																//
-		printf ("\n\t Números inválidos, tente novamentez\n\t");					//
-		printf ("\n\n\t Jogador %c Digite qual peça deseja mover!", jogador);		//
-		printf ("\n\n\t Linha da peça: ");											//
-		scanf ("%d", &linp);														//
-		printf ("\t Coluna da peça: ");												//
-		scanf ("%d", &colp);														//
+	printf ("\n\n\t Jogador %c Digite qual peÃ§a deseja mover!",jogador);			//
+	printf ("\n\n\t Linha da peÃ§a: ");							//
+	scanf ("%d", &lin);									//
+	printf ("\t Coluna da peÃ§a: ");								//
+	scanf ("%d", &col);									//
+												// 		     
+	while (lin < 0 || lin >= 8 || col < 0 || col >= 8){					//
+												//		   
+		system ("cls");									// LÃª os nÃºmeros e Verifica
+		print (matriz);									// se Ã© um nÃºmero VÃ¡lido
+		printf ("\n\t NÃºmeros invÃ¡lidos, tente novamente\n\t");				//
+		printf ("\n\n\t Jogador %c Digite qual peÃ§a deseja mover!", jogador);		// Para ser vÃ¡lido o nÃºmero tem que ser:
+		printf ("\n\n\t Linha da peÃ§a: ");						//			
+		scanf ("%d", &lin);								// "maior ou igual a 0
+		printf ("\t Coluna da peÃ§a: ");							//        e
+		scanf ("%d", &col);								//  menor ou igual a 7"
+												//
+	}											//		
+												// Caso nÃ£o seja um nÃºmero vÃ¡lido
+	system ("cls");	 // Limpa a tela							// o jogador entrarÃ¡ em um loop 
+	print (matriz);										// atÃ© dar nÃºmeros vÃ¡lidos
+												//
+	printf ("\n\n\t Jogador %c Digite para qual casa a peÃ§a vai!", jogador);		//
+	printf ("\n\n\t Linha da peÃ§a: ");							//
+	scanf ("%d", &linp);									//
+	printf ("\t Coluna da peÃ§a: ");								//
+	scanf ("%d", &colp);									//
+												//
+	while(linp < 0 || linp>= 8 || colp < 0 || colp >= 8){					//
+												//
+		system ("cls");									//
+		print (matriz);									//
+		printf ("\n\t NÃºmeros invÃ¡lidos, tente novamentez\n\t");			//
+		printf ("\n\n\t Jogador %c Digite qual peÃ§a deseja mover!", jogador);		//
+		printf ("\n\n\t Linha da peÃ§a: ");						//
+		scanf ("%d", &linp);								//
+		printf ("\t Coluna da peÃ§a: ");							//
+		scanf ("%d", &colp);								//
 																					//
 	}																				//	
 	
-	//Verefica se foi valida a jogada e movimenta a peça
+	//Verefica se foi valida a jogada e movimenta a peÃ§a
 	if (step (matriz,lin,col,linp,colp,jogador, oposto, dama, odama) == -1){
 		system ("cls");
 		print (matriz);
-		printf ("\tMovimento Inválido, Tente novamente!!\n");
+		printf ("\tMovimento InvÃ¡lido, Tente novamente!!\n");
 		continue;
 		
 	}
@@ -405,21 +405,21 @@ int lin, col, linp, colp, game = -1;
 			break;
 	}
 
-free(matriz); // libera o espaço que a matriz ocupava na memoria
+free(matriz); // libera o espaÃ§o que a matriz ocupava na memoria
 
 }
 
 /*
-	Função recebe uma matriz char** e a partir dela 
-	realiza uma busca em busca de peças. 
+	FunÃ§Ã£o recebe uma matriz char** e a partir dela 
+	realiza uma busca em busca de peÃ§as. 
 	
-	Tanto as peças brancas como as peças pretas
-	possuem 12 peças no tabuleiro, então começa-se 12 
-	e a cada peça encontrada se retira 1 número do total,
-	quando não houver peças de um jogador o jogador oposto ganhou!
+	Tanto as peÃ§as brancas como as peÃ§as pretas
+	possuem 12 peÃ§as no tabuleiro, entÃ£o comeÃ§a-se 12 
+	e a cada peÃ§a encontrada se retira 1 nÃºmero do total,
+	quando nÃ£o houver peÃ§as de um jogador o jogador oposto ganhou!
 	
-	Quando brancas == 12 --> Peça Preta ganhou
-	Quando preta == 12 --> Peça Branca ganhou
+	Quando brancas == 12 --> PeÃ§a Preta ganhou
+	Quando preta == 12 --> PeÃ§a Branca ganhou
 	
 */
 
@@ -451,8 +451,8 @@ int status (char** matriz){
 
 
 /*
-	Função recebe uma matriz char** e a partir dessa matriz
-	verifica se a peça alcançou o lado oposto do tabuleiro
+	FunÃ§Ã£o recebe uma matriz char** e a partir dessa matriz
+	verifica se a peÃ§a alcanÃ§ou o lado oposto do tabuleiro
 	linha 0 (lado preto), linha 7 (lado branco), assim 
 	virando uma dama
 	
@@ -474,16 +474,16 @@ void mdama (char** matriz){
 
 /*
 
-Função verifica a diagonal que a dama está se movendo
-possui uma peça oposta, caso encontre a função retornará -1
-avisando assim que a jogada é inválida, caso não encontre 
-uma restrição da jogada a função retorna 2 assim continuando o jogo.
+FunÃ§Ã£o verifica a diagonal que a dama estÃ¡ se movendo
+possui uma peÃ§a oposta, caso encontre a funÃ§Ã£o retornarÃ¡ -1
+avisando assim que a jogada Ã© invÃ¡lida, caso nÃ£o encontre 
+uma restriÃ§Ã£o da jogada a funÃ§Ã£o retorna 2 assim continuando o jogo.
 
 
-localização do tabuleiro: char** matriz
-Peça que vai mover : int lin e col
-Local que a peça vai ocupar: int linp e colp
-Oposto das peças: char oposto e odama
+localizaÃ§Ã£o do tabuleiro: char** matriz
+PeÃ§a que vai mover : int lin e col
+Local que a peÃ§a vai ocupar: int linp e colp
+Oposto das peÃ§as: char oposto e odama
 
 
 
